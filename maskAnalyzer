@@ -1,0 +1,28 @@
+#!/bin/bash
+set -x
+mask=`echo $1 | grep -oE '^((0|1(92|28)|2(24|4[80]|5[542]))\.){3}(0|1(92|28)|2(24|4[80]|5[542]))$' | tr "." " "`
+if [ ! -z "$mask" ]
+then
+  wildcard=""
+  octet=255
+  for i in $mask
+  do
+    if [ "$octet" -eq 255 ] && [ $i -le 255 ] && [ $i -ge 0 ]; then
+      octet=$i
+    elif [ "$octet" -lt 255 ] && [ $i -eq 0 ]; then
+      octet=$i
+    elif [ "$octet" -eq 0 ] && [ $i -eq 0 ]; then
+      octet=$i
+    else
+      echo "invalid mask"
+      exit 1
+    fi
+    wildcard=${wildcard}$((255-i)).
+  done
+  wildcard=${wildcard::-1}
+  echo $wildcard
+else
+  echo "invalid mask"
+  exit 1
+fi
+exit 0

@@ -1,0 +1,17 @@
+#!/bin/bash
+#set -x
+for i in $@
+do
+  if [[ $i =~ .*\.tar.gz$|.*\.tgz$ ]]; then
+    echo "It's tar.gz or .tgz"
+    #tar xvfz $i
+  elif [[ $i =~ .*\.tar.bz2$|.*\.tbz$|.*\.tb2$ ]]; then
+    echo "It's bz2"
+    #tar xvfj $i
+  elif [[ $i  =~ .*\.tar$ ]]; then
+    echo "It's tar"
+    #tar xvf $i
+  else
+    echo "simple file"
+  fi
+done
