@@ -1,2 +1,2 @@
 # EPAM-University
-# EPAM-University
+Scripts for common tasks
