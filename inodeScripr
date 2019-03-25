@@ -1,0 +1,17 @@
+#!/bin/bash
+set -x
+name=file
+touch $name
+n=1000
+for (( i = 0 ; i < $n ; i++))
+do
+ln $name $name$i
+done
+
+inode=`ls -i file | awk '{print $1}'`
+files=`find . -inum $inode ! -path "./$name"`
+
+for d in $files
+do
+rm -f $d
+done
