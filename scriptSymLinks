@@ -1,0 +1,17 @@
+#!/bin/bash
+set -x
+name=file
+touch $name
+n=1000
+for (( i = 0 ; i < $n ; i++))
+do
+ln -s $name $name$i
+done
+
+all_files=`find -L . -samefile $name | sort`
+file_and_hard_links=`find . -samefile $name | sort`
+sym_links=`echo ${all_files[@]} ${file_and_hard_links[@]} | tr ' ' '\n' | sort | uniq -u`
+for i in $sym_links
+do
+  rm -f $i
+done
